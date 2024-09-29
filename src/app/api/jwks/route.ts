@@ -1,27 +1,15 @@
-import { NextResponse } from 'next/server';
-import * as jose from 'jose';
-
-const generateKeyPair = async () => {
-  const keyPair = await jose.generateKeyPair('ES256');
-  const publicKey = await jose.exportJWK(keyPair.publicKey);
-  return publicKey;
-};
-
-const createJWKS = async () => {
-  const publicKey = await generateKeyPair();
-  return {
-    keys: [
-      {
-        ...publicKey,
-        use: 'sig',
-        alg: 'ES256',
-        kid: 'key1',
-      },
-    ],
-  };
-};
+import { NextResponse } from "next/server";
+import { getClient } from "../../../utils/oauthClient";
 
 export async function GET() {
-  const jwks = await createJWKS();
-  return NextResponse.json(jwks);
+  try {
+    const client = await getClient();
+    return NextResponse.json(client.jwks);
+  } catch (error) {
+    console.error("Failed to get JWKS:", error);
+    return NextResponse.json(
+      { error: "Failed to get JWKS" },
+      { status: 500 }
+    );
+  }
 }
