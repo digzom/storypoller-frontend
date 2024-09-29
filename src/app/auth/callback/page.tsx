@@ -1,30 +1,30 @@
 'use client';
 
-import { useEffect } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { blueskyAuth } from '../../../services/blueskyAuth'
+import { useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { handleCallback } from '@/services/blueskyAuth';
 
 export default function CallbackPage() {
-  const router = useRouter()
-  const searchParams = useSearchParams()
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
   useEffect(() => {
-    async function handleCallback() {
-      const code = searchParams.get('code')
-      if (code) {
-        try {
-          const session = await blueskyAuth.handleCallback(code)
-          // Store the session data securely
-          // Redirect to a logged-in page
-          router.push('/')
-        } catch (error) {
-          console.error('Login failed', error)
-          router.push('/login')
-        }
+    async function processCallback() {
+      try {
+        const { session } = await handleCallback(searchParams);
+        router.push('/');
+      } catch (error) {
+        console.error('Error handling callback:', error);
+        router.push('/login');
       }
     }
-    handleCallback()
-  }, [router, searchParams])
 
-  return <div>Completing login...</div>
+    processCallback();
+  }, [router, searchParams]);
+
+  return (
+    <div className="flex items-center justify-center min-h-screen">
+      <p>Processing login...</p>
+    </div>
+  );
 }

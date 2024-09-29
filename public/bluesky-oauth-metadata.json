@@ -1,0 +1,22 @@
+{
+  "client_id": "https://digzom-g3-3590.tailcb56b5.ts.net/bluesky-oauth-metadata.json",
+  "application_type": "web",
+  "client_name": "StoryPoller",
+  "client_uri": "https://digzom-g3-3590.tailcb56b5.ts.net",
+  "dpop_bound_access_tokens": true,
+  "grant_types": [
+    "authorization_code",
+    "refresh_token"
+  ],
+  "redirect_uris": [
+    "https://digzom-g3-3590.tailcb56b5.ts.net/auth/callback"
+  ],
+  "jwks_uri": "https://digzom-g3-3590.tailcb56b5.ts.net/api/auth",
+  "response_types": [
+    "code"
+  ],
+  "scope": "atproto",
+  "token_endpoint_auth_method": "private_key_jwt",
+  "token_endpoint_auth_signing_alg": "ES256"
+}
+
